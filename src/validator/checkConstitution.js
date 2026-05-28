@@ -5,34 +5,33 @@ function assert(condition, msg) {
 }
 
 function main() {
-  // Checks simples: estados terminales no deben tener salidas.
-  assert(TRANSITIONS.get("denied").size === 0, "denied debe ser terminal");
-  assert(TRANSITIONS.get("revoked").size === 0, "revoked debe ser terminal");
+  // Basic checks: terminal states must have no outgoing transitions.
+  assert(TRANSITIONS.get("denied").size === 0, "denied must be terminal");
+  assert(TRANSITIONS.get("revoked").size === 0, "revoked must be terminal");
 
-  // Checks de ruta feliz mínima
+  // Happy-path minimum checks
   assert(
     TRANSITIONS.get("requested").has("evaluated"),
-    "requested → evaluated debe existir"
+    "requested → evaluated must exist"
   );
   assert(
     TRANSITIONS.get("evaluated").has("granted"),
-    "evaluated → granted debe existir"
+    "evaluated → granted must exist"
   );
   assert(
     TRANSITIONS.get("granted").has("active"),
-    "granted → active debe existir"
+    "granted → active must exist"
   );
   assert(
     TRANSITIONS.get("active").has("completed"),
-    "active → completed debe existir"
+    "active → completed must exist"
   );
   assert(
     TRANSITIONS.get("completed").has("revoked"),
-    "completed → revoked debe existir"
+    "completed → revoked must exist"
   );
 
   console.log("OK: capability constitution checks passed");
 }
 
 if (require.main === module) main();
-

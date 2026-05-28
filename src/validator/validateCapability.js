@@ -19,8 +19,8 @@ function normalizePaths(scope) {
 }
 
 /**
- * “Governor” (evaluación) de una solicitud de capability.
- * El bridge NO decide: solo llama a esta función.
+ * “Governor” evaluation for a capability request.
+ * The bridge does NOT decide: it only calls this function.
  */
 function evaluateRequest({ rootDir, request }) {
   const policy = readPolicy(rootDir);
@@ -28,27 +28,27 @@ function evaluateRequest({ rootDir, request }) {
   const capability = request.capability;
   const requestedBy = request.requested_by;
 
-  // 1) ¿Existe la capability?
+  // 1) Capability supported?
   const capDef = policy.scopes[capability];
   if (!capDef) {
     return {
       allowed: false,
       ruleId: "CAP-UNKNOWN",
-      reason: `Capability no soportada: ${capability}`,
+      reason: `Unsupported capability: ${capability}`,
     };
   }
 
-  // 2) ¿Rol autorizado para ejecutar?
+  // 2) Role authorized to execute?
   const role = policy.roles[requestedBy];
   if (!role || !role.canExecute?.includes(capability)) {
     return {
       allowed: false,
       ruleId: "CAP-ROLE-DENIED",
-      reason: `Rol no autorizado (${requestedBy}) para ${capability}`,
+      reason: `Unauthorized role (${requestedBy}) for ${capability}`,
     };
   }
 
-  // 3) Scope (paths) dentro de los límites
+  // 3) Scope (paths) within boundaries
   const repoRoot = path.resolve(rootDir);
   const allowedBases = (capDef.allowedBaseDirs || []).map((d) =>
     path.resolve(rootDir, d)
@@ -56,13 +56,13 @@ function evaluateRequest({ rootDir, request }) {
   const pathsToCheck = normalizePaths(request.scope);
 
   for (const p of pathsToCheck) {
-    // Rechazar paths absolutos fuera del repo
+    // Reject paths outside repo
     const targetAbs = path.resolve(rootDir, p);
     if (!isSubPath(repoRoot, targetAbs) && targetAbs !== repoRoot) {
       return {
         allowed: false,
         ruleId: "CAP-SCOPE-OUTSIDE-REPO",
-        reason: `Scope fuera del repo: ${p}`,
+        reason: `Scope outside repo: ${p}`,
       };
     }
 
@@ -73,12 +73,12 @@ function evaluateRequest({ rootDir, request }) {
       return {
         allowed: false,
         ruleId: "CAP-SCOPE-DENIED",
-        reason: `Scope no permitido por policy para ${capability}: ${p}`,
+        reason: `Scope not allowed by policy for ${capability}: ${p}`,
       };
     }
   }
 
-  // 4) TTL (opcional) - si no viene, se asigna default
+  // 4) TTL (optional) - fallback to policy default
   const ttlSeconds =
     typeof request.ttl_seconds === "number"
       ? request.ttl_seconds
@@ -88,7 +88,7 @@ function evaluateRequest({ rootDir, request }) {
     return {
       allowed: false,
       ruleId: "CAP-TTL-DENIED",
-      reason: `TTL inválido: ${ttlSeconds}`,
+      reason: `Invalid TTL: ${ttlSeconds}`,
     };
   }
 
@@ -103,4 +103,3 @@ function evaluateRequest({ rootDir, request }) {
 }
 
 module.exports = { evaluateRequest };
-

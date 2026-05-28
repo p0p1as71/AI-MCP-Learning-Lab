@@ -1,11 +1,11 @@
 /**
- * Capability lifecycle state machine (core del lab).
+ * Capability lifecycle state machine (core of this lab).
  *
  * requested → evaluated → granted → active → completed → revoked
  *                        └──────→ denied (terminal)
  *
- * Nota: permitimos revocación forzosa desde granted/active (por TTL o error),
- * pero SIEMPRE debe registrarse como acción explícita.
+ * Note: we allow forced revocation from granted/active (TTL or error),
+ * but it must ALWAYS be registered as an explicit action.
  */
 
 const TRANSITIONS = new Map([
@@ -28,4 +28,3 @@ module.exports = {
   TRANSITIONS,
   validateTransition,
 };
-

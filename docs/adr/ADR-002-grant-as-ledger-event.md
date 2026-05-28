@@ -1,8 +1,7 @@
-# ADR-002 — el grant es un evento de ledger
+# ADR-002 — Grant is a Ledger Event
 
-## Decisión
-Modelar los grants como eventos append-only en un ledger auditable.
+## Decision
+Model grants as append-only events in an auditable ledger.
 
-## Consecuencia
-Toda concesión, activación, uso, completado y revocación es trazable y reproducible (replay).
-
+## Consequence
+Every grant, activation, usage, completion, and revocation becomes traceable and replayable (post-hoc audit).

@@ -1,8 +1,8 @@
 const { validateTransition } = require("../validator/rules");
 
 /**
- * Reproduce una secuencia de eventos y valida que no haya transiciones inválidas.
- * Devuelve un objeto de auditoría (ok + violations).
+ * Replays a sequence of events and validates there are no invalid transitions.
+ * Returns an audit object (ok + violations).
  */
 function replayEvents(events) {
   const violations = [];
@@ -30,4 +30,3 @@ function replayEvents(events) {
 }
 
 module.exports = { replayEvents };
-

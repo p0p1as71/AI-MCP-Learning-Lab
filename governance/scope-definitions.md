@@ -1,25 +1,24 @@
 # scope-definitions
 
-Definiciones **explícitas** de scope (capabilities) permitidas en este lab.
+**Explicit** scope (capability) definitions allowed in this lab.
 
-## Principios
+## Principles
 
-- **capability ≠ autoridad**: tener “acceso” a una tool no autoriza su uso.
-- El scope permitido debe ser **mínimo**, **auditable** y **revocable**.
-- El sandbox permitido para filesystem en este lab es la carpeta del repo (demo).
+- **capability ≠ authority**: being connected to a tool does not authorize its use.
+- Allowed scope must be **minimal**, **auditable**, and **revocable**.
+- Filesystem sandbox for this lab is the repository folder (demo).
 
 ## Scopes
 
 ### filesystem:read
 
-- Permitido: lectura dentro del repo.
+- Allowed: reading within the repo.
 
 ### filesystem:write
 
-- Permitido: escritura **solo** dentro de `AI-MCP-Learning-Lab/experiments/` y `AI-MCP-Learning-Lab/assets/`.
-- Denegado: cualquier path fuera del repo o path traversal.
+- Allowed: writing **only** within `AI-MCP-Learning-Lab/experiments/` and `AI-MCP-Learning-Lab/assets/`.
+- Denied: any path outside the repo or any path traversal attempt.
 
 ### github:read / github:write
 
-- En esta demo local no se ejecuta GitHub real; el objetivo es el **modelo de governance**.
-
+- This local demo does not execute real GitHub calls; the goal is the **governance model**.

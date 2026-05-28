@@ -1,13 +1,12 @@
-# ADR-004 — capability provenance
+# ADR-004 — Capability Provenance
 
-## Decisión
-Todo evento `GRANTED` debe incluir provenance verificable:
+## Decision
+Every `GRANTED` event must include verifiable provenance:
 
 - `reason`
 - `approved_by`
 - `policy_rule`
 - `scope_origin`
 
-## Consecuencia
-Un grant sin provenance se considera **arbitrario** y por tanto inválido para auditoría.
-
+## Consequence
+A grant without provenance is considered **arbitrary**, therefore invalid for audit.

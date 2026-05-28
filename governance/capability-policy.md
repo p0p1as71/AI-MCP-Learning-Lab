@@ -1,21 +1,20 @@
 # capability-policy
 
-Política de governance para solicitudes de capability.
+Governance policy for capability requests.
 
-## Reglas (alto nivel)
+## Rules (high level)
 
-1. Toda solicitud debe crear evento `REQUESTED` en el ledger.
-2. La evaluación produce `EVALUATED` y un veredicto:
-   - `GRANTED` (con TTL + provenance) o
-   - `DENIED` (con motivo y ruleId).
-3. Si se concede:
-   - la capability se activa (`ACTIVE`) **solo** durante su ventana TTL;
-   - tras ejecutar la acción, debe quedar `COMPLETED`;
-   - **siempre** debe ejecutarse `REVOKED` (revocación obligatoria).
-4. Un `GRANTED` sin provenance es inválido.
+1. Every request must append a `REQUESTED` event into the ledger.
+2. Evaluation produces `EVALUATED` plus a verdict:
+   - `GRANTED` (with TTL + provenance) or
+   - `DENIED` (with reason and `ruleId`).
+3. If granted:
+   - the capability becomes `ACTIVE` **only** during its TTL window;
+   - after execution it must be `COMPLETED`;
+   - it must always end with `REVOKED` (mandatory revocation).
+4. A `GRANTED` event without provenance is invalid.
 
 ## Roles (demo)
 
-- `capability_governor`: autoriza o deniega (representado por el validador en código).
-- `executor-agent`: ejecuta la acción si y solo si recibió un grant válido.
-
+- `capability_governor`: grants/denies (represented by the validator logic).
+- `executor-agent`: executes the tool call only if it holds a valid grant.

@@ -1,8 +1,7 @@
-# ADR-003 — la revocación es obligatoria
+# ADR-003 — Revocation is Mandatory
 
-## Decisión
-Todo grant debe terminar en `REVOKED` (siempre), incluso en caso de error.
+## Decision
+Every grant must end in `REVOKED` (always), even in case of failure.
 
-## Consecuencia
-Se evita el “capability leak” (permisos que quedan vivos por accidente).
-
+## Consequence
+This prevents “capability leaks” (permissions accidentally left alive).

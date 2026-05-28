@@ -1,8 +1,7 @@
-# ADR-001 — capability ≠ identity
+# ADR-001 — Capability ≠ Identity
 
-## Decisión
-Separar “tener una capability” de “tener autoridad”.
+## Decision
+Separate “having a capability” from “having authority”.
 
-## Consecuencia
-Un agente puede estar técnicamente conectado a una tool (capability), pero su uso queda bloqueado hasta que exista un **grant temporal** gobernado y registrado en el ledger.
-
+## Consequence
+An agent may be technically connected to a tool (capability), but usage remains blocked until there is a **time-bounded, governed grant** recorded in the ledger.

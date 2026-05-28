@@ -13,7 +13,7 @@ async function main() {
 
   const session_id = `SESSION-${Date.now()}`;
 
-  // Tool demo: escribir un archivo dentro de experiments/04-governed-runtime/
+  // Demo tool: write a file within experiments/04-governed-runtime/
   const writeFileTool = async ({ relPath, content }) => {
     const abs = path.resolve(rootDir, relPath);
     fs.mkdirSync(path.dirname(abs), { recursive: true });
@@ -21,7 +21,7 @@ async function main() {
     return { wrote: relPath, bytes: Buffer.byteLength(content, "utf8") };
   };
 
-  console.log("\n--- DEMO 1: happy path (filesystem:write dentro del sandbox) ---");
+  console.log("\n--- DEMO 1: happy path (filesystem:write inside sandbox) ---");
   await runGovernedTool({
     rootDir,
     ledger,
@@ -37,13 +37,13 @@ async function main() {
       tool_fn: writeFileTool,
       tool_args: {
         relPath: "./experiments/04-governed-runtime/output.txt",
-        content: `Hola. Este archivo fue creado mediante un grant temporal.\nSession: ${session_id}\n`,
+        content: `Hello. This file was created via a time-bounded grant.\nSession: ${session_id}\n`,
       },
-      provenance_reason: "output de experiment-04",
+      provenance_reason: "experiment-04 output artifact",
     },
   });
 
-  console.log("\n--- DEMO 2: denegado (scope fuera de sandbox permitido) ---");
+  console.log("\n--- DEMO 2: denied (scope outside allowed sandbox) ---");
   const denied = await runGovernedTool({
     rootDir,
     ledger,
@@ -54,31 +54,31 @@ async function main() {
       requested_by: "executor-agent",
       tool_name: "writeFile",
       capability: "filesystem:write",
-      scope: { paths: ["./"] }, // no permitido para write (solo experiments/ y assets/)
+      scope: { paths: ["./"] }, // not allowed for write (only experiments/ and assets/)
       ttl_seconds: 120,
       tool_fn: writeFileTool,
       tool_args: {
         relPath: "./output-should-not-exist.txt",
-        content: "Esto no debería escribirse.\n",
+        content: "This should not be written.\n",
       },
-      provenance_reason: "intento fuera de sandbox",
+      provenance_reason: "attempt outside sandbox",
     },
   });
   if (!denied.ok) console.log("DENIED:", denied.ruleId, "-", denied.reason);
 
-  // Auditoría
+  // Audit
   const events = ledger.bySession(session_id);
   const audit = replayCapabilitySession(events);
 
-  console.log("\n--- AUDITORÍA (replayCapabilitySession) ---");
+  console.log("\n--- AUDIT (replayCapabilitySession) ---");
   console.log(JSON.stringify(audit, null, 2));
 
-  console.log("\n--- EVENTOS (session) ---");
+  console.log("\n--- EVENTS (session) ---");
   for (const e of events) {
     console.log(`${e.ts} :: ${e.action} :: ${e.role} :: ${e.request_id}`);
   }
 
-  console.log("\nListo. Revisa:");
+  console.log("\nDone. Check:");
   console.log("- experiments/04-governed-runtime/output.txt");
   console.log("- .ledger/events.json");
 }
@@ -89,4 +89,3 @@ if (require.main === module) {
     process.exitCode = 1;
   });
 }
-

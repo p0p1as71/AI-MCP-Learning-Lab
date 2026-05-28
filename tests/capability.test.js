@@ -53,7 +53,7 @@ async function run() {
     assert.ok(granted.payload.policy_rule);
     assert.ok(granted.payload.scope_origin);
 
-    // 2) Bypass / scope no permitido
+    // 2) Bypass / scope not allowed
     const r2 = await runGovernedTool({
       rootDir,
       ledger,
@@ -74,7 +74,7 @@ async function run() {
     assert.equal(r2.denied, true);
     assert.equal(fs.existsSync(path.join(rootDir, "should-not-exist.txt")), false);
 
-    // 3) Role no autorizado
+    // 3) Unauthorized role
     const r3 = await runGovernedTool({
       rootDir,
       ledger,
@@ -95,7 +95,7 @@ async function run() {
     assert.equal(r3.denied, true);
     assert.equal(fs.existsSync(path.join(rootDir, "experiments/01-filesystem/intruder.txt")), false);
 
-    // 4) Scope fuera del repo (path traversal)
+    // 4) Scope outside repo (path traversal)
     const r4 = await runGovernedTool({
       rootDir,
       ledger,
@@ -115,15 +115,14 @@ async function run() {
     assert.equal(r4.ok, false);
     assert.equal(r4.denied, true);
   } finally {
-    // Limpieza del ledger de test
+    // Cleanup test ledger
     fs.rmSync(path.join(rootDir, ledgerDir), { recursive: true, force: true });
   }
 
-  console.log("OK: tests/capability.test.js — 4 escenarios pasaron");
+  console.log("OK: tests/capability.test.js — 4 scenarios passed");
 }
 
 run().catch((err) => {
   console.error(err);
   process.exitCode = 1;
 });
-

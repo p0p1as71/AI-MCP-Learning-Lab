@@ -1,10 +1,9 @@
-# ADR-005 — el bridge es adaptador, no gobernador
+# ADR-005 — The Bridge is an Adapter, Not a Governor
 
-## Decisión
-`mcp-bridge` solo traduce/orquesta el flujo:
+## Decision
+`mcp-bridge` only translates/orchestrates the flow:
 
-`tool call → REQUESTED → (governor evalúa) → GRANTED/ DENIED → ejecución → COMPLETED → REVOKED`
+`tool call → REQUESTED → (governor evaluates) → GRANTED/ DENIED → execution → COMPLETED → REVOKED`
 
-## No permitido
-El bridge **no** evalúa scope, **no** decide grants, **no** incorpora policy.
-
+## Not allowed
+The bridge **must not** evaluate scope, **must not** decide grants, and **must not** embed policy.

@@ -3,4 +3,5 @@ node_modules/
 .ledger/
 *.log
 Reporte_*.pdf
+Report_*.pdf
 experiments/**/*.txt

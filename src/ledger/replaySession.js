@@ -7,14 +7,14 @@ function hasProvenance(grantedEvent) {
 }
 
 /**
- * Auditoría de una sesión completa de capability governance.
- * - transiciones válidas
- * - todo GRANTED con provenance
- * - revocación obligatoria
+ * Audits a full capability-governance session.
+ * - valid transitions
+ * - every GRANTED must include provenance
+ * - mandatory revocation
  */
 function replayCapabilitySession(events) {
-  // Una “session” puede contener múltiples request_id.
-  // Las transiciones deben validarse por request (no entre requests).
+  // A "session" may contain multiple request_id.
+  // Transitions must be validated per request (not between requests).
   const byRequest = groupBy(events, (e) => e.request_id || "__no_request__");
   const perRequest = [];
 

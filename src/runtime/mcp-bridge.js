@@ -11,11 +11,11 @@ function isExpired(grant) {
 }
 
 /**
- * Adaptador: ejecuta una “tool call” solo si hay grant temporal gobernado.
+ * Adapter: executes a “tool call” only if there is a governed, time-bounded grant.
  *
- * Importante (ADR-005):
- * - Este módulo NO contiene policy. NO decide. Solo orquesta.
- * - La evaluación está en validator/validateCapability.js
+ * Important (ADR-005):
+ * - This module does NOT contain policy. It does NOT decide. It only orchestrates.
+ * - Evaluation lives in validator/validateCapability.js
  */
 async function runGovernedTool({
   rootDir,
@@ -23,8 +23,8 @@ async function runGovernedTool({
   registry,
   call, // {session_id, request_id, requested_by, capability, scope, ttl_seconds?, tool_name, tool_fn, tool_args, provenance_reason}
 }) {
-  assert(call.session_id, "call.session_id requerido");
-  assert(call.request_id, "call.request_id requerido");
+  assert(call.session_id, "call.session_id is required");
+  assert(call.request_id, "call.request_id is required");
 
   // 1) REQUESTED
   ledger.append({
@@ -39,7 +39,7 @@ async function runGovernedTool({
     },
   });
 
-  // 2) EVALUATED (gobernor)
+  // 2) EVALUATED (governor)
   const evalResult = evaluateRequest({
     rootDir,
     request: {
@@ -73,7 +73,7 @@ async function runGovernedTool({
     return { ok: false, denied: true, ruleId: evalResult.ruleId, reason: evalResult.reason };
   }
 
-  // 3) GRANTED (con provenance)
+  // 3) GRANTED (with provenance)
   const grant = grantCapability({
     ledger,
     registry,
@@ -109,7 +109,7 @@ async function runGovernedTool({
 
   try {
     if (isExpired(grant)) {
-      throw new Error("TTL expirado antes de ejecutar la tool");
+      throw new Error("TTL expired before tool execution");
     }
     toolResult = await call.tool_fn(call.tool_args || {});
 
@@ -140,7 +140,7 @@ async function runGovernedTool({
     });
     return { ok: false, error: String(err?.message || err) };
   } finally {
-    // 6) REVOKED (obligatoria)
+    // 6) REVOKED (mandatory)
     revokeCapability({
       ledger,
       registry,
@@ -153,4 +153,3 @@ async function runGovernedTool({
 }
 
 module.exports = { runGovernedTool };
-

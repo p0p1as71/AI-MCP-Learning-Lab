@@ -1,20 +1,20 @@
-# Reporte (texto)
+# Report (text version)
 
-El reporte formal está entregado como PDF en tu carpeta local de trabajo.  
-Para mantener el repositorio 100% “text-only” (y evitar problemas de pushing de binarios), aquí dejo el resumen equivalente.
+The formal report is delivered as a PDF in your local working folder.  
+To keep this repository 100% **text-only** (and avoid pushing binaries), this file provides the equivalent written report.
 
-## Resumen
+## Summary
 
-Este proyecto implementa un runtime de **capability governance** con:
+This project implements a **capability governance runtime** with:
 
-- ledger append-only (auditable)
-- lifecycle de capabilities (requested → evaluated → granted → active → completed → revoked / denied)
-- grants temporales con TTL
-- **revocación obligatoria**
-- **provenance** en cada `GRANTED` (reason, approved_by, policy_rule, scope_origin)
-- `mcp-bridge` como adaptador (ADR-005), nunca como autoridad
+- append-only ledger (auditable)
+- capability lifecycle (requested → evaluated → granted → active → completed → revoked / denied)
+- time-bounded grants (TTL)
+- **mandatory revocation**
+- **provenance** attached to every `GRANTED` event (`reason`, `approved_by`, `policy_rule`, `scope_origin`)
+- `mcp-bridge` as an adapter (ADR-005), never as an authority
 
-## Cómo ejecutar
+## How to run
 
 ```bash
 npm run check
@@ -22,8 +22,7 @@ npm run test
 npm run demo
 ```
 
-## Artefactos que genera la demo
+## Demo artifacts
 
 - `experiments/04-governed-runtime/output.txt`
 - `.ledger/events.json`
-
