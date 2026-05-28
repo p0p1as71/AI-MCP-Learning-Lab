@@ -1,0 +1,6 @@
+node_modules/
+.DS_Store
+.ledger/
+*.log
+Reporte_*.pdf
+experiments/**/*.txt

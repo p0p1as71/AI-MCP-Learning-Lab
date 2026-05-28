@@ -1,0 +1,22 @@
+{
+  "roles": {
+    "capability_governor": {
+      "canGrant": ["filesystem:read", "filesystem:write"]
+    },
+    "executor-agent": {
+      "canExecute": ["filesystem:read", "filesystem:write"]
+    }
+  },
+  "scopes": {
+    "filesystem:read": {
+      "allowedBaseDirs": ["./"]
+    },
+    "filesystem:write": {
+      "allowedBaseDirs": ["./experiments/", "./assets/"]
+    }
+  },
+  "defaults": {
+    "ttlSeconds": 300
+  }
+}
+

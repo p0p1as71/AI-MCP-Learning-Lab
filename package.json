@@ -1,0 +1,14 @@
+{
+  "name": "ai-mcp-learning-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI-MCP-Learning-Lab — Governed Capability Access · Provenance · Replay (May 2026)",
+  "license": "MIT",
+  "main": "src/index.js",
+  "scripts": {
+    "demo": "node src/index.js",
+    "test": "node tests/capability.test.js",
+    "check": "node src/validator/checkConstitution.js"
+  }
+}
+
